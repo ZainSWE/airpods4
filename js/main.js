@@ -397,7 +397,7 @@ function handleVideoPlayback() {
     
     const fadeInStart = 4200;
     const videoPlayStart = 4300;
-    const fadeOutStart = 4800;
+    const fadeOutStart = 4700;
     const videoEnd = 4800;
     
     if (scrollPos >= fadeInStart && scrollPos < videoEnd) {
@@ -562,30 +562,31 @@ function initCanvasScrollClip(forceInit) {
 
 function initCanvasScrollClip2(forceInit) {
     const isMobileNow = window.innerWidth <= 1200;
-    
+
     if (forceInit || currentIsMobile !== isMobileNow) {
         const oldCanvas = document.querySelector('.scrollContainer2 canvas');
-        if (oldCanvas) {
-            oldCanvas.remove();
-        }
-        
+        if (oldCanvas) oldCanvas.remove();
+
         canvasScrollClipInstance2 = new CanvasScrollClip(scrollContainer2, {
-            framePath: isMobileNow ? "assets/images/frames2Mobile/0001.webp" : "assets/images/frames2/0001.webp",
+            framePath: isMobileNow
+                ? "assets/images/frames2Mobile/0001.webp"
+                : "assets/images/frames2/0001.webp",
             frameCount: 80,
             scrollArea: 5000
         });
-        
+
         const canvas = document.querySelector('.scrollContainer2 canvas');
         if (canvas) {
             canvas.style.transform = 'translateZ(0)';
             canvas.style.willChange = 'transform';
         }
-        
+
         console.log('Canvas 2 initialized');
         loadingProgress.canvas2 = true;
         checkAllLoaded();
     }
 }
+
 
 // ****************************************
 // Window Resizer
