@@ -58,9 +58,3 @@ I plan to publish a detailed blog post breaking down:
 ## 🌐 Live Demo
 
 🔗 https://zainswe.github.io/airpods4/
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 6a15d33e5381939ad6e3f07cd5666e30ad48c786
