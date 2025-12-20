@@ -397,8 +397,8 @@ function handleVideoPlayback() {
     
     const fadeInStart = 4200;
     const videoPlayStart = 4300;
-    const fadeOutStart = 5100;
-    const videoEnd = 5200;
+    const fadeOutStart = 4800;
+    const videoEnd = 4800;
     
     if (scrollPos >= fadeInStart && scrollPos < videoEnd) {
         if (featureSection2) {
