@@ -373,15 +373,15 @@ function onMouseDown() {
     if (isOverModel) {
         isDragging = true;
         document.body.style.cursor = 'grabbing';
-        document.body.style.overflow = 'hidden';
         document.body.style.touchAction = 'none';
+        document.body.style.userSelect = 'none';
     }
 }
 
 function onMouseUp() {
     isDragging = false;
-    document.body.style.overflow = '';
     document.body.style.touchAction = '';
+    document.body.style.userSelect = '';
     if (isOverModel) {
         document.body.style.cursor = 'grab';
     } else {
@@ -460,13 +460,20 @@ function createHotspot(desktopPosition, mobilePosition, title, description) {
         element: hotspot,
         desktopPosition: new THREE.Vector3(desktopPosition[0], desktopPosition[1], desktopPosition[2]),
         mobilePosition: new THREE.Vector3(mobilePosition[0], mobilePosition[1], mobilePosition[2]),
-        worldPosition: new THREE.Vector3()
+        worldPosition: new THREE.Vector3(),
+        currentX: 0,
+        currentY: 0,
+        targetX: 0,
+        targetY: 0
     });
     
     console.log('Hotspot created:', title);
     
     return hotspot;
 }
+
+let lastHotspotUpdate = 0;
+const hotspotUpdateInterval = 100;
 
 function updateHotspotPositions() {
     if (!hotspotsVisible || window.scrollY >= window.innerHeight || !object) {
@@ -509,8 +516,21 @@ function updateHotspotPositions() {
         
         const isVisible = !isBehindCamera && !isTooFar && !isOccluded;
         
-        hotspot.element.style.left = `${x}px`;
-        hotspot.element.style.top = `${y}px`;
+        const label = hotspot.element.querySelector('.hotspot-label');
+        if (label) {
+            const labelOffset = isMobileNow ? 18 : 30;
+            const labelWidth = label.offsetWidth || (isMobileNow ? 140 : 270);
+            
+            if (x + labelOffset + labelWidth > window.innerWidth - 20) {
+                label.style.left = 'auto';
+                label.style.right = (isMobileNow ? '18px' : '30px');
+            } else {
+                label.style.left = (isMobileNow ? '18px' : '30px');
+                label.style.right = 'auto';
+            }
+        }
+        
+        hotspot.element.style.transform = `translate(${x}px, ${y}px)`;
         hotspot.element.style.opacity = isVisible ? '1' : '0';
         
         const zIndex = isVisible ? Math.round(1000 - vector.z * 100) : -1;
@@ -606,7 +626,7 @@ function animate() {
     updateModelVisibility();
     updateHotspotPositions();
     
-    if (object && object.visible && window.scrollY < window.innerHeight && !isDragging) {
+    if (object && object.visible && window.scrollY < window.innerHeight && !isDragging && !hotspotsVisible) {
         object.rotation.y += 0.008;
     }
     

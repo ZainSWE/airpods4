@@ -6,7 +6,8 @@
 html {
     scroll-behavior: auto;
     overflow-x: hidden;
-    width: 100%
+    width: 100%;
+    scrollbar-gutter: stable;
 }
 
 @font-face {
@@ -316,6 +317,7 @@ nav a:hover {
     justify-content: center;
     align-items: center;
     text-align: center;
+    pointer-events: all;
 }
 
 .hero h1 {
@@ -549,8 +551,12 @@ nav a:hover {
 
 .hotspot {
     position: fixed;
-    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
+    transform: translate(0, 0);
+    will-change: transform;
     pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 .hotspot-dot {
