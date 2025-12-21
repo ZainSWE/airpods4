@@ -1,7 +1,5 @@
 # Apple AirPods 4 - 3D Product Landing Page
 
-**(Work in Progress)**
-
 An interactive, Apple-inspired 3D product landing page featuring AirPods 4, built to explore high-quality WebGL rendering and modern product storytelling on the web.
 
 ---
@@ -53,6 +51,26 @@ I plan to publish a detailed blog post breaking down:
 
 ---
 
+## 📖 Case Study
+
+Below is an in-depth breakdown of the design and development process behind this project.
+
+### Page 1
+![Case Study Page 1](assets/images/page1.jpg)
+
+---
+
+### Page 2
+![Case Study Page 2](assets/images/page2.jpg)
+
+---
+
+### Page 3
+![Case Study Page 3](assets/images/page3.jpg)
+
+---
+
 ## 🌐 Live Demo
+
 
 🔗 https://zainswe.github.io/airpods4/
