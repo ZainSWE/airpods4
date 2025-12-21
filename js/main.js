@@ -60,6 +60,20 @@ function setSectionDuration(seconds) {
 setSectionDuration(8);
 
 function checkAllLoaded() {
+    const progressBar = document.getElementById('progressBar');
+    if (progressBar) {
+        const total = 4;
+        let loaded = 0;
+        
+        if (loadingProgress.model) loaded++;
+        if (loadingProgress.canvas1) loaded++;
+        if (loadingProgress.canvas2) loaded++;
+        if (loadingProgress.images) loaded++;
+        
+        const percentage = (loaded / total) * 100;
+        progressBar.style.width = percentage + '%';
+    }
+    
     const allLoaded = loadingProgress.model && 
                       loadingProgress.canvas1 && 
                       loadingProgress.canvas2 && 
@@ -152,6 +166,22 @@ function preloadImages() {
         
         img.src = src;
     }
+}
+
+function updateLoadingProgress() {
+    const progressBar = document.getElementById('progressBar');
+    if (!progressBar) return;
+    
+    const total = 4;
+    let loaded = 0;
+    
+    if (loadingProgress.model) loaded++;
+    if (loadingProgress.canvas1) loaded++;
+    if (loadingProgress.canvas2) loaded++;
+    if (loadingProgress.images) loaded++;
+    
+    const percentage = (loaded / total) * 100;
+    progressBar.style.width = percentage + '%';
 }
 
 function loadModel() {
