@@ -1,4 +1,4 @@
-# AirPods 4 - Interactive 3D Product Experience
+# AirPods 4 - Interactive 3D Product Showcase
 
 An interactive, Apple-inspired 3D product landing page featuring AirPods 4, built to explore high-quality WebGL rendering and modern product storytelling on the web.
 
@@ -74,4 +74,5 @@ Below is an in-depth breakdown of the design and development process behind this
 
 
 🔗 https://zainswe.github.io/airpods4/
+
 
