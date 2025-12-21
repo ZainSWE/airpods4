@@ -37,8 +37,6 @@ The focus is on **visual polish, performance, and restraint**.
 
 ## 🛠️ Planned Features
 
-- “Learn More” section with animated feature highlights
-- Comparison table with other AirPods models
 - Graceful fallback for low-end devices
 
 ---
