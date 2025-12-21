@@ -4,9 +4,6 @@ import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/l
 import { RoomEnvironment } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/environments/RoomEnvironment.js";
 import CanvasScrollClip from 'https://cdn.skypack.dev/canvas-scroll-clip';
 
-// ****************************************
-// Global Variables
-// ****************************************
 let isMobile = window.innerWidth <= 1200;
 
 const scene = new THREE.Scene();
@@ -33,7 +30,6 @@ const featureSections = document.querySelectorAll('.featureSection');
 const scrollContainer = document.querySelector('.scrollContainer');
 const scrollContainer2 = document.querySelector('.scrollContainer2');
 
-// Get featureSection2 after DOM loads
 let featureSection2;
 
 let lastScrollPos = 0;
@@ -52,9 +48,9 @@ let loadingProgress = {
     images: false
 };
 
-// ****************************************
-// Feature Scroll Text Duration
-// ****************************************
+let hotspots = [];
+let hotspotsVisible = false;
+
 function setSectionDuration(seconds) {
     const scrollSpeed = 100;
     pixelsPerSection = scrollSpeed * seconds;
@@ -63,9 +59,6 @@ function setSectionDuration(seconds) {
 
 setSectionDuration(8);
 
-// ****************************************
-// Loaded Checkpoint
-// ****************************************
 function checkAllLoaded() {
     const allLoaded = loadingProgress.model && 
                       loadingProgress.canvas1 && 
@@ -96,9 +89,6 @@ function triggerTextAnimations() {
     }
 }
 
-// ****************************************
-// Image Preloader
-// ****************************************
 function preloadImages() {
     const isMobileNow = window.innerWidth <= 1200;
     const frameCount1 = 120;
@@ -164,9 +154,6 @@ function preloadImages() {
     }
 }
 
-// ****************************************
-// GLB Loader
-// ****************************************
 function loadModel() {
     const loader = new GLTFLoader();
     
@@ -211,9 +198,6 @@ function loadModel() {
     );
 }
 
-// ****************************************
-// Renderer
-// ****************************************
 function setupRenderer() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -230,9 +214,6 @@ function setupRenderer() {
     document.getElementById("container3D").appendChild(canvas);
 }
 
-// ****************************************
-// Camera
-// ****************************************
 function setupControls() {
     controls = new OrbitControls(camera, renderer.domElement);
     camera.position.z = isMobile ? 35 : 25;
@@ -251,9 +232,6 @@ function setupControls() {
     });
 }
 
-// ****************************************
-// Lighting
-// ****************************************
 function setupLights() {
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     const roomEnvironment = new RoomEnvironment();
@@ -285,9 +263,6 @@ function setupLights() {
     window.ambientLight = ambientLight;
 }
 
-// ****************************************
-// Viewport Model Visibility
-// ****************************************
 function updateModelVisibility() {
     if (!object) return;
     
@@ -320,9 +295,6 @@ function updateModelVisibility() {
     }
 }
 
-// ****************************************
-// Click Interaction
-// ****************************************
 function checkModelIntersection() {
     if (!object || !object.visible) return;
     
@@ -371,11 +343,15 @@ function onMouseDown() {
     if (isOverModel) {
         isDragging = true;
         document.body.style.cursor = 'grabbing';
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
     }
 }
 
 function onMouseUp() {
     isDragging = false;
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
     if (isOverModel) {
         document.body.style.cursor = 'grab';
     } else {
@@ -385,11 +361,10 @@ function onMouseUp() {
 
 function onDocumentMouseUp() {
     isDragging = false;
+    document.body.style.overflow = '';
+    document.body.style.touchAction = '';
 }
 
-// ****************************************
-// Video Playback Control
-// ****************************************
 function handleVideoPlayback() {
     const video = document.getElementById('transitionVideo');
     const videoContainer = document.querySelector('.videoContainer');
@@ -434,9 +409,161 @@ function handleVideoPlayback() {
     }
 }
 
-// ****************************************
-// Animation Loop
-// ****************************************
+function createHotspot(desktopPosition, mobilePosition, title, description) {
+    const hotspot = document.createElement('div');
+    hotspot.className = 'hotspot';
+    hotspot.innerHTML = `
+        <div class="hotspot-dot"></div>
+        <div class="hotspot-label">
+            <h4>${title}</h4>
+            <p>${description}</p>
+        </div>
+    `;
+    hotspot.style.position = 'absolute';
+    hotspot.style.pointerEvents = 'none';
+    hotspot.style.opacity = '0';
+    hotspot.style.transition = 'opacity 0.5s ease';
+    
+    document.body.appendChild(hotspot);
+    
+    hotspots.push({
+        element: hotspot,
+        desktopPosition: new THREE.Vector3(desktopPosition[0], desktopPosition[1], desktopPosition[2]),
+        mobilePosition: new THREE.Vector3(mobilePosition[0], mobilePosition[1], mobilePosition[2]),
+        worldPosition: new THREE.Vector3()
+    });
+    
+    console.log('Hotspot created:', title);
+    
+    return hotspot;
+}
+
+function updateHotspotPositions() {
+    if (!hotspotsVisible || window.scrollY >= window.innerHeight || !object) {
+        hotspots.forEach(hotspot => {
+            hotspot.element.style.opacity = '0';
+        });
+        return;
+    }
+    
+    const isMobileNow = window.innerWidth <= 1200;
+    
+    hotspots.forEach(hotspot => {
+        const positionToUse = isMobileNow ? hotspot.mobilePosition : hotspot.desktopPosition;
+        
+        hotspot.worldPosition.copy(positionToUse);
+        hotspot.worldPosition.applyMatrix4(object.matrixWorld);
+        
+        const vector = hotspot.worldPosition.clone();
+        vector.project(camera);
+        
+        const x = (vector.x * 0.5 + 0.5) * window.innerWidth;
+        const y = (vector.y * -0.5 + 0.5) * window.innerHeight;
+        
+        const distance = camera.position.distanceTo(hotspot.worldPosition);
+        const isBehindCamera = vector.z > 1;
+        const isTooFar = distance > 50;
+        
+        const direction = new THREE.Vector3();
+        direction.subVectors(hotspot.worldPosition, camera.position).normalize();
+        
+        raycaster.set(camera.position, direction);
+        const intersects = raycaster.intersectObject(object, true);
+        
+        let isOccluded = false;
+        if (intersects.length > 0) {
+            const firstHitDistance = intersects[0].distance;
+            const hotspotDistance = camera.position.distanceTo(hotspot.worldPosition);
+            isOccluded = firstHitDistance < hotspotDistance - 0.5;
+        }
+        
+        const isVisible = !isBehindCamera && !isTooFar && !isOccluded;
+        
+        hotspot.element.style.left = `${x}px`;
+        hotspot.element.style.top = `${y}px`;
+        hotspot.element.style.opacity = isVisible ? '1' : '0';
+        
+        const zIndex = isVisible ? Math.round(1000 - vector.z * 100) : -1;
+        hotspot.element.style.zIndex = zIndex.toString();
+    });
+}
+
+function toggleHotspots() {
+    console.log('Toggle hotspots clicked, current state:', hotspotsVisible);
+    
+    hotspotsVisible = !hotspotsVisible;
+    
+    const heroTitle = document.querySelector('.hero h1');
+    const heroSubtitle = document.querySelector('.hero h3');
+    const heroText = document.querySelector('.hero p');
+    
+    if (hotspotsVisible) {
+        if (heroTitle || heroSubtitle || heroText) {
+            heroTitle.style.filter = 'blur(8px)';
+            heroTitle.style.transition = 'filter 0.5s ease';
+            heroSubtitle.style.filter = 'blur(8px)';
+            heroSubtitle.style.transition = 'filter 0.5s ease';
+            heroText.style.filter = 'blur(8px)';
+            heroText.style.transition = 'filter 0.5s ease';
+        }
+    } else {
+        if (heroTitle || heroSubtitle || heroText) {
+            heroTitle.style.filter = 'blur(0px)';
+            heroSubtitle.style.filter = 'blur(0px)';
+            heroText.style.filter = 'blur(0px)';
+        }
+    }
+    
+    if (hotspotsVisible && hotspots.length === 0) {
+        console.log('Creating hotspots...');
+        
+        createHotspot(
+            [0.18, 0.45, 0.12],
+            [0.1, 0.65, 0.1],
+            "Active Noise Cancellation",
+            "Blocks external noise for immersive sound"
+        );
+        
+        createHotspot(
+            [0, 0.03, 0.1],
+            [0, 0.23, 0.1],
+            "30hr Battery",
+            "All-day listening with charging case"
+        );
+        
+        createHotspot(
+            [0, -0.25, 0],
+            [0, -0.1, 0.05],
+            "USB-C Charging",
+            "Fast charge with universal connector"
+        );
+        
+        createHotspot(
+            [-0.18, 0.45, 0.12],
+            [-0.15, 0.65, 0.1],
+            "Spatial Audio",
+            "Theater-like sound with head tracking"
+        );
+        
+        console.log('Total hotspots created:', hotspots.length);
+    }
+    
+    hotspots.forEach((hotspot, index) => {
+        setTimeout(() => {
+            hotspot.element.style.opacity = hotspotsVisible ? '1' : '0';
+            hotspot.element.style.pointerEvents = hotspotsVisible ? 'auto' : 'none';
+        }, index * 100);
+    });
+    
+    const button = document.getElementById("inspectButton");
+    if (button) {
+        button.textContent = hotspotsVisible ? "Hide Info" : "Show Features";
+        console.log('Button text updated to:', button.textContent);
+    }
+    
+    console.log(`Hotspots: ${hotspotsVisible ? 'VISIBLE' : 'HIDDEN'}`);
+}
+
 function animate() {
     requestAnimationFrame(animate);
     
@@ -447,6 +574,7 @@ function animate() {
     }
     
     updateModelVisibility();
+    updateHotspotPositions();
     
     if (object && object.visible && window.scrollY < window.innerHeight && !isDragging) {
         object.rotation.y += 0.008;
@@ -455,10 +583,6 @@ function animate() {
     controls.update();
     renderer.render(scene, camera);
 }
-
-// ****************************************
-// Scroll Handling
-// ****************************************
 
 function handleScroll() {
     const scrollPos = window.scrollY;
@@ -528,9 +652,6 @@ function handleScroll() {
     }
 }
 
-// ****************************************
-// Canvas Scroll Clip Initialization
-// ****************************************
 function initCanvasScrollClip(forceInit) {
     const isMobileNow = window.innerWidth <= 1200;
     
@@ -587,10 +708,6 @@ function initCanvasScrollClip2(forceInit) {
     }
 }
 
-
-// ****************************************
-// Window Resizer
-// ****************************************
 function handleResize() {
     const isMobileNow = window.innerWidth <= 1200;
     isMobile = isMobileNow;
@@ -613,9 +730,6 @@ function handleResize() {
     initCanvasScrollClip2();
 }
 
-// ****************************************
-// Dark Mode Toggle
-// ****************************************
 function setupDarkMode() {
     document.querySelectorAll('.theme-switch').forEach(function(switchElement) {
         switchElement.addEventListener('change', function() {
@@ -644,9 +758,6 @@ function setupDarkMode() {
     });
 }
 
-// ****************************************
-// Learn More & Buy Button Smooth Scroll
-// ****************************************
 function setupLearnMoreButton() {
     const learnMoreButton = document.querySelector('.learnButton');
     
@@ -699,14 +810,10 @@ function smoothScrollBy(distance, duration) {
     requestAnimationFrame(animation);
 }
 
-// ****************************************
-// Initialization
-// ****************************************
 function init() {
     console.log('Initializing');
     
     featureSection2 = document.querySelector('.featureSection2');
-    console.log('featureSection2:', featureSection2);
     
     document.querySelectorAll('.theme-switch').forEach(function(switchElement) {
         switchElement.checked = false;
@@ -724,12 +831,21 @@ function init() {
     setupDarkMode();
     setupLearnMoreButton();
     setupBuyButton();
+    
+    const inspectBtn = document.getElementById("inspectButton");
+    if (inspectBtn) {
+        inspectBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            toggleHotspots();
+        });
+        console.log('Inspect button listener attached');
+    } else {
+        console.error('Inspect button not found!');
+    }
+    
     animate();
 }
 
-// ****************************************
-// Event Listeners
-// ****************************************
 window.addEventListener('mousemove', onMouseMove);
 window.addEventListener('mousedown', onMouseDown);
 window.addEventListener('mouseup', onMouseUp);
