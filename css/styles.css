@@ -10,76 +10,15 @@ html {
     scrollbar-gutter: stable;
 }
 
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('../assets/fonts/SF-Pro-Display-Black.otf') format('opentype');
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('../assets/fonts/SF-Pro-Display-Heavy.otf') format('opentype');
-    font-style: normal;
-    font-weight: 700;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('../assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
-    font-style: normal;
-    font-weight: 600;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('../assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
-    font-style: normal;
+body {
+    position: relative;
+    width: 100vw;
+    margin: 0;
+    font-family: 'SF Pro Display', sans-serif;
     font-weight: 400;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Display';
-    src: url('../assets/fonts/SF-Pro-Display-Thin.otf') format('opentype');
-    font-style: normal;
-    font-weight: 100;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Rounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Black.otf') format('opentype');
-    font-style: normal;
-    font-weight: 900;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Rounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Regular.otf') format('opentype');
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Rounded';
-    src: url('../assets/fonts/SF-Pro-Rounded-Thin.otf') format('opentype');
-    font-style: normal;
-    font-weight: 100;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'SF Pro Text';
-    src: url('../assets/fonts/SF-Pro-Text-Thin.otf') format('opentype');
-    font-style: normal;
-    font-weight: 100;
-    font-display: swap;
+    background-color: white;
+    color: black;
+    text-rendering: optimizeLegibility;
 }
 
 svg {
@@ -90,9 +29,77 @@ svg path {
     pointer-events: all;
 }
 
-.iconLink svg {
-    display: block;
-    flex-shrink: 0;
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('../assets/fonts/SF-Pro-Display-Black.otf') format('opentype');
+    font-weight: 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('../assets/fonts/SF-Pro-Display-Heavy.otf') format('opentype');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('../assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+    font-weight: 600;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('../assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Display';
+    src: url('../assets/fonts/SF-Pro-Display-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('../assets/fonts/SF-Pro-Rounded-Black.otf') format('opentype');
+    font-weight: 900;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('../assets/fonts/SF-Pro-Rounded-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Rounded';
+    src: url('../assets/fonts/SF-Pro-Rounded-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'SF Pro Text';
+    src: url('../assets/fonts/SF-Pro-Text-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-display: swap;
+}
+
+@keyframes logoFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.8; }
 }
 
 #loadingScreen {
@@ -102,29 +109,59 @@ svg path {
 #loadingScreen.loaded {
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.8s ease;
 }
 
-@keyframes logoFadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+nav {
+    background-color: rgba(245, 245, 247, .8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: .6rem;
+    font-family: 'SF Pro Text', sans-serif;
+    font-size: 12px;
+    display: flex;
+    gap: 0.5rem;
+    padding: 1.1rem;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
 }
 
-body {
-    position: relative;
-    width: 100vw;
-    margin: 0;
-    font-family: 'SF Pro Display', sans-serif;
-    font-weight: 400;
-    background-color: white;
+nav a {
+    text-decoration: none;
     color: black;
-    text-rendering: optimizeLegibility;
+    padding: 0.5rem;
+    border-radius: 2rem;
+    transition: all 200ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10px;
+}
+
+nav a i {
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: white;
+    background-color: #1d1d1f;
+}
+
+.appleIcon {
+    width: 16px;
+    height: 16px;
+}
+
+.iconLink svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+.mobile-nav {
+    opacity: 0;
+    z-index: -10;
 }
 
 .switch-container {
@@ -144,6 +181,10 @@ body {
     position: relative;
 }
 
+.switch input {
+    display: none;
+}
+
 .switch .slider {
     position: absolute;
     inset: 0;
@@ -151,8 +192,6 @@ body {
     border-radius: 34px;
     transition: all 400ms ease;
 }
-
-.switch input { display: none; }
 
 .switch .slider::before {
     content: "";
@@ -188,70 +227,22 @@ body {
     opacity: 0;
 }
 
-.switch input:checked + .slider { background: #34c759; }
-.switch input:checked + .slider::before { transform: translateX(22px); }
+.switch input:checked + .slider {
+    background: #34c759;
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(22px);
+}
+
 .switch input:checked + .slider .sun-icon-toggle {
     opacity: 0;
     transform: translateY(-50%) translateX(22px);
 }
+
 .switch input:checked + .slider .moon-icon-toggle {
     opacity: 1;
     transform: translateY(-50%) translateX(22px);
-}
-
-body.dark-mode {
-    background-color: #1d1d1f;
-    color: white;
-}
-
-body.dark-mode nav { background-color: rgba(29, 29, 31, .8); }
-body.dark-mode nav a { color: #f5f5f7; }
-body.dark-mode nav a:hover {
-    color: black;
-    background-color: #f5f5f7;
-}
-
-body.dark-mode .hero h1,
-body.dark-mode .hero h3,
-body.dark-mode .hero p,
-body.dark-mode .scrollText h1,
-body.dark-mode .scrollText p,
-body.dark-mode .featureSection h1,
-body.dark-mode .featureSection h2,
-body.dark-mode .featureSection p { color: white; }
-
-body.dark-mode .featureSectionBackground {
-    background: linear-gradient(to bottom, rgba(29, 29, 31, 0) 0%, rgba(29, 29, 31, 0.1) 15%, rgba(29, 29, 31, 0.3) 30%, rgba(29, 29, 31, 0.5) 45%, rgba(29, 29, 31, 0.7) 60%, rgba(29, 29, 31, 0.85) 75%, rgba(29, 29, 31, 0.95) 90%, rgba(29, 29, 31, 1) 100%);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .featureSection2 h1,
-body.dark-mode .featureSection2 h2,
-body.dark-mode .featureSection2 p { color: black; }
-
-body.dark-mode .buyButton,
-body.dark-mode .inspectButton {
-    background-color: #1d1d1f;
-    color: rgb(0, 113, 227);
-    border: 2px solid rgb(0, 113, 227);
-}
-
-body.dark-mode .buyButton:hover,
-body.dark-mode .inspectButton:hover {
-    background-color: rgb(0, 113, 227);
-    color: white;
-}
-
-body.dark-mode .caseStudyButton:hover {
-    background-color: #1d1d1f;
-    color: rgb(0, 113, 227);
-}
-
-body.dark-mode .learnButton:hover {
-    background-color: #1d1d1f;
-    color: rgb(0, 113, 227);
 }
 
 #container3D {
@@ -270,50 +261,8 @@ body.dark-mode .learnButton:hover {
     pointer-events: none;
 }
 
-nav {
-    background-color: rgba(245, 245, 247, .8);
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: .6rem;
-    font-family: 'SF Pro Text', sans-serif;
-    font-size: 12px;
-    display: flex;
-    gap: 0.5rem;
-    padding: 1.1rem;
-    justify-content: center;
-    align-items: center;
-    z-index: 50;
-}
-
-nav a {
-    text-decoration: none;
-    color: black;
-    padding: 0.5rem;
-    border-radius: 2rem;
-    transition: all 200ms ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 10px;
-}
-
-nav a i { font-size: 14px; }
-
-nav a:hover {
-    color: white;
-    background-color: #1d1d1f;
-}
-
-.appleIcon {
-    width: 16px;
-    height: 16px;
-}
-
 .hero {
     position: absolute;
-    font-family: 'SF Pro Display', sans-serif;
     width: 100%;
     height: 100vh;
     margin-top: 16rem;
@@ -331,8 +280,6 @@ nav a:hover {
     font-weight: 600;
     z-index: -200;
     pointer-events: none;
-    touch-action: none;
-    outline: none;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -342,8 +289,6 @@ nav a:hover {
     margin-top: 8rem;
     z-index: 10;
     pointer-events: none;
-    touch-action: none;
-    outline: none;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -353,8 +298,6 @@ nav a:hover {
     font-size: 1.5rem;
     z-index: 10;
     pointer-events: none;
-    touch-action: none;
-    outline: none;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -375,41 +318,31 @@ nav a:hover {
     min-width: 5rem;
     height: .5rem;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     pointer-events: all;
-    transition-duration: 200ms;
+    transition: all 200ms ease;
     text-decoration: none;
     cursor: pointer;
     font-size: 1rem;
 }
 
-.caseStudyButton {
-    background-color: rgb(0, 113, 227);
-    color: white;
-    pointer-events: all;
-    z-index: 20;
-}
-
-.caseStudyButton:hover {
-    background-color: white;
-    color: rgb(0, 113, 227);
-}
-
-.caseStudyButton:active { background-color: #006EDB; }
-
+.caseStudyButton,
 .learnButton {
     background-color: rgb(0, 113, 227);
     color: white;
 }
 
+.caseStudyButton:hover,
 .learnButton:hover {
     background-color: white;
     color: rgb(0, 113, 227);
 }
 
-.learnButton:active { background-color: #006EDB; }
+.caseStudyButton:active,
+.learnButton:active {
+    background-color: #006EDB;
+}
 
 .buyButton,
 .inspectButton {
@@ -453,7 +386,10 @@ nav a:hover {
     transition: opacity 1.2s ease;
 }
 
-.videoContainer.active { opacity: 1; }
+.videoContainer.active {
+    opacity: 1;
+}
+
 .videoContainer.fade-out {
     opacity: 0;
     transition: opacity 0.8s ease;
@@ -470,7 +406,6 @@ nav a:hover {
 
 .scrollText {
     position: fixed;
-    font-family: 'SF Pro Display', sans-serif;
     width: 100%;
     top: 10%;
     display: flex;
@@ -499,7 +434,6 @@ nav a:hover {
 .featureSection,
 .featureSection2 {
     position: fixed;
-    font-family: 'SF Pro Display', sans-serif;
     top: 60%;
     transform: translateY(-50%);
     max-width: 400px;
@@ -540,12 +474,11 @@ nav a:hover {
 
 .buySection {
     position: fixed;
-    font-family: 'SF Pro Display', sans-serif;
     left: 10%;
     top: 50%;
     transform: translateY(-50%);
     max-width: 100%;
-    z-index: -10;
+    z-index: 100;
     opacity: 0;
     transition: opacity 600ms ease;
     pointer-events: all;
@@ -573,7 +506,6 @@ nav a:hover {
     position: fixed;
     left: 0;
     top: 0;
-    transform: translate(0, 0);
     will-change: transform;
     pointer-events: none;
     transition: opacity 0.3s ease;
@@ -616,15 +548,65 @@ nav a:hover {
     color: rgba(255, 255, 255, 0.8);
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-    }
+body.dark-mode {
+    background-color: #1d1d1f;
+    color: white;
+}
+
+body.dark-mode nav {
+    background-color: rgba(29, 29, 31, .8);
+}
+
+body.dark-mode nav a {
+    color: #f5f5f7;
+}
+
+body.dark-mode nav a:hover {
+    color: black;
+    background-color: #f5f5f7;
+}
+
+body.dark-mode .hero h1,
+body.dark-mode .hero h3,
+body.dark-mode .hero p,
+body.dark-mode .scrollText h1,
+body.dark-mode .scrollText p,
+body.dark-mode .featureSection h1,
+body.dark-mode .featureSection h2,
+body.dark-mode .featureSection p {
+    color: white;
+}
+
+body.dark-mode .featureSection2 h1,
+body.dark-mode .featureSection2 h2,
+body.dark-mode .featureSection2 p {
+    color: black;
+}
+
+body.dark-mode .featureSectionBackground {
+    background: linear-gradient(to bottom, rgba(29, 29, 31, 0) 0%, rgba(29, 29, 31, 0.1) 15%, rgba(29, 29, 31, 0.3) 30%, rgba(29, 29, 31, 0.5) 45%, rgba(29, 29, 31, 0.7) 60%, rgba(29, 29, 31, 0.85) 75%, rgba(29, 29, 31, 0.95) 90%, rgba(29, 29, 31, 1) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .buyButton,
+body.dark-mode .inspectButton {
+    background-color: #1d1d1f;
+    color: rgb(0, 113, 227);
+    border: 2px solid rgb(0, 113, 227);
+}
+
+body.dark-mode .buyButton:hover,
+body.dark-mode .inspectButton:hover {
+    background-color: rgb(0, 113, 227);
+    color: white;
+}
+
+body.dark-mode .caseStudyButton:hover,
+body.dark-mode .learnButton:hover {
+    background-color: #1d1d1f;
+    color: rgb(0, 113, 227);
 }
 
 body.dark-mode .hotspot-dot {
@@ -643,11 +625,6 @@ body.dark-mode .hotspot-label h4 {
 
 body.dark-mode .hotspot-label p {
     color: rgba(0, 0, 0, 0.7);
-}
-
-.mobile-nav {
-    opacity: 0;
-    z-index: -10;
 }
 
 @media (max-width: 1200px) {
@@ -670,9 +647,7 @@ body.dark-mode .hotspot-label p {
         z-index: 50;
         opacity: 1;
         transform: translateZ(0);
-        -webkit-transform: translateZ(0);
         backface-visibility: hidden;
-        -webkit-backface-visibility: hidden;
     }
 
     body.dark-mode .mobile-nav { background-color: rgba(29, 29, 31, .8); }
@@ -684,9 +659,7 @@ body.dark-mode .hotspot-label p {
 
     .mobile-nav a i { font-size: 14px; }
 
-    #container3D {
-        margin-top: -5rem;
-    }
+    #container3D { margin-top: -5rem; }
 
     .videoContainer {
         margin-top: 3rem;
@@ -694,53 +667,7 @@ body.dark-mode .hotspot-label p {
         height: 70vh;
     }
 
-    .hero {
-        position: absolute;
-        font-family: 'SF Pro Display', sans-serif;
-        width: 100%;
-        height: 100vh;
-        margin-top: 16rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        pointer-events: all;
-    }
-
-    .featureSectionBackground {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        left: 50%;
-        top: 65%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 300px;
-        padding: 2rem;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-        backdrop-filter: blur(0px);
-        -webkit-backdrop-filter: blur(0px);
-        mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
-        pointer-events: none;
-        z-index: 9;
-        opacity: 0;
-        transition: opacity 0.6s ease;
-        margin-top: 10rem;
-    }
-
-    body.dark-mode .featureSectionBackground {
-        background: linear-gradient(to bottom, rgba(29, 29, 31, 0) 0%, rgba(29, 29, 31, 1) 100%);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
-    }
-
-    .hero {
-        margin-top: 10rem;
-    }
+    .hero { margin-top: 10rem; }
 
     .hero h1 {
         margin-top: 2rem;
@@ -759,12 +686,12 @@ body.dark-mode .hotspot-label p {
         font-size: 1rem;
     }
 
-    .buttonContainer { 
+    .buttonContainer {
         margin-top: 3rem;
         gap: 0.5rem;
         flex-wrap: wrap;
     }
-    
+
     .learnButton,
     .buyButton,
     .inspectButton,
@@ -774,6 +701,32 @@ body.dark-mode .hotspot-label p {
         min-width: 4rem;
         height: auto;
         border-radius: 50px;
+    }
+
+    .featureSectionBackground {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 50%;
+        top: 65%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 300px;
+        padding: 2rem;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        backdrop-filter: blur(0px);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
+        pointer-events: none;
+        z-index: 9;
+        opacity: 0;
+        transition: opacity 0.6s ease;
+        margin-top: 10rem;
+    }
+
+    body.dark-mode .featureSectionBackground {
+        background: linear-gradient(to bottom, rgba(29, 29, 31, 0) 0%, rgba(29, 29, 31, 1) 100%);
+        backdrop-filter: blur(30px);
+        mask-image: linear-gradient(to bottom, transparent 0%, black 50%, black 70%, black 100%);
     }
 
     .scrollText h1 {
@@ -791,16 +744,12 @@ body.dark-mode .hotspot-label p {
     .featureSection2 {
         display: flex;
         flex-direction: column;
-        position: fixed;
         transform: translate(-50%, -50%);
         top: 60%;
         left: 50%;
         width: 350px;
         z-index: 10;
         margin-top: 10rem;
-        transition: opacity 0.6s ease;
-        opacity: 0;
-        pointer-events: none;
     }
 
     .featureSection2 { z-index: 20; }
@@ -857,13 +806,13 @@ body.dark-mode .hotspot-label p {
         margin: -0.5rem;
         max-width: 70%;
     }
-    
+
     .hotspot-dot {
         width: 12px;
         height: 12px;
         border: 2px solid white;
     }
-    
+
     .hotspot-label {
         left: 18px;
         top: -6px;
@@ -872,14 +821,14 @@ body.dark-mode .hotspot-label p {
         width: 120px;
         white-space: normal;
     }
-    
+
     .hotspot-label h4 {
         font-size: 10px;
         margin: 0 0 3px 0;
         font-weight: 600;
         line-height: 1.2;
     }
-    
+
     .hotspot-label p {
         font-size: 8px;
         line-height: 1.3;
