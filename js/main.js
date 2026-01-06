@@ -1,8 +1,8 @@
-import * as THREE from "https://cdn.skypack.dev/three@0.129.0/build/three.module.js";
-import { OrbitControls } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
-import { RoomEnvironment } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/environments/RoomEnvironment.js";
-import CanvasScrollClip from 'https://cdn.skypack.dev/canvas-scroll-clip';
+import * as THREE from 'https://esm.sh/three@0.128.0';
+import { OrbitControls } from 'https://esm.sh/three@0.128.0/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://esm.sh/three@0.128.0/examples/jsm/loaders/GLTFLoader.js';
+import { RoomEnvironment } from 'https://esm.sh/three@0.128.0/examples/jsm/environments/RoomEnvironment.js';
+import CanvasScrollClip from 'https://esm.sh/canvas-scroll-clip';
 
 let isMobile = window.innerWidth <= 1200;
 
